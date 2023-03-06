@@ -1,0 +1,27 @@
+.servicesItemWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.servicesItemWrapper img {
+  border-radius: 10px;
+}
+
+@media (max-width: 1400px) {
+  .servicesItemWrapper {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 940px) {
+  .servicesItemWrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .servicesItemWrapper {
+    grid-template-columns: 1fr;
+  }
+}

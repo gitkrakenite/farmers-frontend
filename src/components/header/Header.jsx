@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import bgVideo from "../../assets/bgg2.mp4";
 import "./header.css";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleAuth = (user) => {
+    user === "farmer" ? navigate("/fauth") : navigate("/uauth");
+  };
+
   return (
     <div className="relative ">
       {/* <img
@@ -66,10 +73,20 @@ const Header = () => {
         </p>
         <div className=" block md:flex gap-[20px]">
           <div className="mb-[4em] md:mb-0">
-            <span className="splashGetStarted">Join As a Farmer</span>
+            <span
+              onClick={() => handleAuth("farmer")}
+              className="splashGetStarted"
+            >
+              Join As a Farmer
+            </span>
           </div>
           <div>
-            <span className="splashGetStarted">Join As a Friend</span>
+            <span
+              onClick={() => handleAuth("user")}
+              className="splashGetStarted"
+            >
+              Join As a Friend
+            </span>
           </div>
         </div>
       </div>

@@ -166,7 +166,26 @@ const Footer = () => {
             </div>
             <div>
               <h2 className="text-lg">Contracts</h2>
-              <ul></ul>
+              <ul className=" p-0">
+                <li className="mb-[8px]">
+                  <a
+                    href="#"
+                    className="text-slate-400 hover:text-slate-50"
+                    target="_blank"
+                  >
+                    Chandaria Poultry
+                  </a>
+                </li>
+                <li className="mb-[8px]">
+                  <a
+                    href="#"
+                    className="text-slate-400 hover:text-slate-50"
+                    target="_blank"
+                  >
+                    Turkana Cattle
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

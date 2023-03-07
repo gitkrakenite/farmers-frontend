@@ -19,7 +19,7 @@ const Footer = () => {
         {/* overlay div */}
         <div className="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,.7)]" />
         <div className="absolute w-full h-full top-0 flex flex-col  pl-[2em] pr-[2em] pt-[2em] text-white">
-          <div className=" block  sm:text-start sm:flex justify-evenly">
+          <div className=" block   sm:text-start sm:flex justify-evenly">
             <div className="flex flex-col justify-start items-start">
               <div>
                 <h2 className="text-lg">Quick Links</h2>

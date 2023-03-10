@@ -15,7 +15,7 @@ const Login = () => {
         <div className="flex-[0.4] ">
           <div className="relative group">
             <img
-              src="https://images.pexels.com/photos/14348416/pexels-photo-14348416.jpeg?auto=compress&cs=tinysrgb&w=1600"
+              src="https://images.pexels.com/photos/4198222/pexels-photo-4198222.jpeg?auto=compress&cs=tinysrgb&w=1600"
               alt=""
               className="rounded-lg"
             />
@@ -26,9 +26,9 @@ const Login = () => {
               <div className="absolute w-full h-full bottom-[8px] left-[16px]  pl-[1em] pr-[1em] flex flex-col justify-end text-white">
                 {/* content */}
                 <p className="text-lg">
-                  The number one platform for farmers. Join our community for
-                  all your needs. Learn from the experts, sell your products
-                  directly to customers and so much more
+                  Welcome back. We value your contribution to our platform. We
+                  hope that you are enjoying what we have to offer. For any
+                  complaint, feel free to reach out to us. We value you.
                 </p>
               </div>
             </div>

@@ -1,92 +1,61 @@
-import React, { useState } from "react";
-import bgVideo from "../../assets/bgg2.mp4";
+import React from "react";
 import "./header.css";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = () => {
-  const navigate = useNavigate();
-
-  const handleAuth = (user) => {
-    user === "farmer" ? navigate("/fauth") : navigate("/uauth");
+  const ScrollTop = () => {
+    window.scrollTo(0, 0);
   };
-
   return (
-    <div className="relative ">
-      {/* <img
-        src="https://images.pexels.com/photos/96715/pexels-photo-96715.jpeg?auto=compress&cs=tinysrgb&w=1600"
-        alt=""
-        className="h-[85vh] w-[100%] object-cover"
-      /> */}
-      <video
-        className="w-full h-[85vh] object-cover"
-        src={bgVideo}
-        autoPlay
-        muted
-        loop
-      />
-      {/* overlay */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,.63)] " />
-      {/* contentWrapper */}
-      <div className="absolute w-full h-full top-0 flex flex-col  pl-[2em] pr-[2em] text-white pt-[10px]">
-        {/* content */}
-        <div className="">
-          {/* topBar */}
-          <div className="flex justify-between items-center">
-            {/* logo */}
-            <div>
-              <h1 className="pt-[5px] text-2xl  md:text-4xl">
-                MKU<span className="text-green-500">LIMA</span>
+    <div
+      style={{
+        position: "sticky",
+        backgroundColor: "#e2dfdf",
+        top: 0,
+        zIndex: 999,
+      }}
+    >
+      {/* topbar */}
+      <div className="flex justify-between items-center">
+        {/* logo and links */}
+        <div className="flex gap-[4em] items-center">
+          <Link to="/landing" style={{ color: "inherit" }}>
+            <div className="cursor-pointer" onClick={ScrollTop}>
+              <h1>
+                MKU<span className="text-green-600 font-serif">LIMA</span>{" "}
               </h1>
             </div>
-            <div>
-              <span
-                className="bg-green-700 p-[8px] md:p-[15px] rounded-md cursor-pointer text-zinc-200"
-                style={{ fontWeight: 500 }}
-              >
-                Get Started
-              </span>
-            </div>
+          </Link>
+          <div>
+            <ul className="flex gap-[10px] items-center text-lg p-0 m-0">
+              <li className="cursor-pointer">Info</li>
+              <li className="cursor-pointer">Shop</li>
+              <li className="cursor-pointer">Invest</li>
+              <li className="cursor-pointer">Chat</li>
+            </ul>
           </div>
         </div>
-      </div>
-      {/*  */}
-      <div className="absolute w-full h-full top-0 flex flex-col justify-center items-center  pl-[2em] pr-[2em] text-white pt-[10px] text-center">
-        <div style={{ lineHeight: "1.9em" }}>
-          <h1 className=" leading-10  text-2xl sm:text-3xl md:text-6xl mb-4">
-            The Best Farmers Platform
-          </h1>
-          <h1 className="text-2xl sm:text-3xl md:text-6xl mb-4">
-            anywhere in the world,{" "}
-          </h1>
+        {/* search field */}
+        <div className="flex-[0.3]">
+          <form className="bg-slate-200 rounded-xl">
+            <input
+              type="text"
+              placeholder="Search Post"
+              className="bg-transparent text-lg p-[8px] outline-none border-none w-[100%]"
+            />
+          </form>
         </div>
-        <p
-          className="text-xl sm:text-2xl md:text-4xl mt-[0.2em] mb-[0.7em]"
-          style={{ fontWeight: 300, letterSpacing: "1px" }}
-        >
-          Connect, Invest and Sell
-        </p>
-        <p
-          className="mb-[40px]"
-          style={{ fontWeight: 300, letterSpacing: "1px" }}
-        >
-          Are you ready to get started with the number one farmers platform ?
-        </p>
-        <div className=" block md:flex gap-[20px]">
-          <div className="mb-[4em] md:mb-0">
-            <span
-              onClick={() => handleAuth("farmer")}
-              className="splashGetStarted"
-            >
-              Join As a Farmer
-            </span>
+        {/* user details */}
+        <div className="flex gap-[10px] items-center bg-slate-200 rounded-xl p-[5px] cursor-pointer">
+          <div className="flex items-center">
+            <span>Hello Joyce</span>
           </div>
           <div>
-            <span
-              onClick={() => handleAuth("user")}
-              className="splashGetStarted"
-            >
-              Join As a Friend
-            </span>
+            <img
+              src="https://images.pexels.com/photos/3221849/pexels-photo-3221849.png?auto=compress&cs=tinysrgb&w=1600"
+              alt=""
+              className="w-[40px] h-[40px] object-cover rounded-full"
+            />
           </div>
         </div>
       </div>

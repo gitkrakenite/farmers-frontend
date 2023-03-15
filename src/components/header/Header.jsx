@@ -27,7 +27,7 @@ const Header = () => {
             </div>
           </Link>
           <div>
-            <ul className="flex gap-[10px] items-center text-lg p-0 m-0">
+            <ul className="flex gap-[20px] items-center text-lg p-0 m-0">
               <li className="cursor-pointer">Info</li>
               <li className="cursor-pointer">Shop</li>
               <li className="cursor-pointer">Invest</li>

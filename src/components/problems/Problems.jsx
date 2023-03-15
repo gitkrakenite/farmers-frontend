@@ -4,7 +4,15 @@ import { DummyProblems } from "../../data";
 
 const Problems = () => {
   return (
-    <div className=" w-[100%] relative">
+    <div
+      className=" w-[100%] relative"
+      style={{
+        position: "sticky",
+        backgroundColor: "#f7efef",
+        top: "60px",
+        zIndex: 999,
+      }}
+    >
       <div>
         <p className="text-md" style={{ fontWeight: "800" }}>
           Latest Issues

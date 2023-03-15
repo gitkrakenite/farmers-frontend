@@ -6,7 +6,7 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 const Rightbar = () => {
   return (
     <div
-      className="h-[100vh] overflow-y-scroll p-[5px] hide-scrollbar"
+      className="h-[100vh] overflow-y-scroll p-[5px] hide-scrollbar "
       style={{
         position: "sticky",
         backgroundColor: "#f7efef",

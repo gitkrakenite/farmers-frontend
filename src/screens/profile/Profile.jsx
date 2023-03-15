@@ -1,0 +1,142 @@
+import React from "react";
+import { MdOutlineCreate } from "react-icons/md";
+import { Link } from "react-router-dom";
+import Header from "../../components/header/Header";
+import Posts from "../../components/posts/Posts";
+import Problems from "../../components/problems/Problems";
+import Rightbar from "../../components/rightbar/Rightbar";
+import "./profile.css";
+
+// make an api that fetches the user data from db based on user id
+// make an api that fetches all posts based on a user id.
+
+// if fetched posts.name === logged in username then show delete icon.
+
+const Profile = () => {
+  return (
+    <div className=" p-[5px] md:pl-[10px] md:pr-[10px] lg:pl-[2em] lg:pr-[2em] md:pt-[1em] w-[100%]">
+      {/* header */}
+      <div
+        style={{
+          position: "sticky",
+          backgroundColor: "#e2dfdf",
+          top: 0,
+          zIndex: 999,
+        }}
+      >
+        <Link to="/landing">
+          <h1 className="text-zinc-700">
+            MKU<span className="text-green-600 font-serif">LIMA</span>{" "}
+          </h1>
+        </Link>
+      </div>
+      <div className="flex pt-[2em] gap-[10px]">
+        <div className=" hidden lg:flex lg:w-[20%] ">
+          <Problems />
+        </div>
+        <div className="w-[100%] lg:w-[60%] ">
+          {/* user data */}
+          <div>
+            {/* cover picture */}
+            <div>
+              <img
+                src="https://images.pexels.com/photos/949587/pexels-photo-949587.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt=""
+                style={{ height: "40vh", width: "100%", objectFit: "cover" }}
+                className="rounded-md"
+              />
+            </div>
+            {/* profile */}
+            <div className="flex justify-center mt-[-2.7em]">
+              <img
+                src="https://images.pexels.com/photos/207353/pexels-photo-207353.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt=""
+                className="w-[100px] h-[100px] object-cover rounded-full"
+              />
+            </div>
+
+            {/* user details */}
+            <div className="profileUserData mt-[1em] text-zinc-500">
+              <div className=" block sm:flex justify-between items-center">
+                <p>
+                  Hello my name is :{" "}
+                  <span className="text-zinc-800">Mark Nderitu</span>
+                </p>
+                <p>
+                  My email is :{" "}
+                  <a href="mailto:jujs@gmail.com">
+                    <span className="text-zinc-800">
+                      mark.nderitu@gmail.com
+                    </span>
+                  </a>
+                </p>
+              </div>
+
+              <p>
+                Joined the community{" "}
+                <span className="text-zinc-800">2 days ago</span>
+              </p>
+              <p>
+                My{" "}
+                <a
+                  href="google.com"
+                  className="text-green-600 active:text-green-600"
+                  target="_blank"
+                >
+                  <span className="text-green-600">Sema</span>{" "}
+                </a>
+                account is:{" "}
+                <a href="google.com" className="underline" target="_blank">
+                  <span className="underline">markzie</span>
+                </a>
+                . Create an account{" "}
+                <a
+                  href="google.com"
+                  className="text-green-600 active:text-green-600"
+                  target="_blank"
+                >
+                  <span className="text-green-600">Here</span>{" "}
+                </a>{" "}
+                to chat with me and others.
+              </p>
+              <div className="bg-red-700 flex justify-center text-zinc-200 p-[10px] rounded-xl cursor-pointer">
+                <button>Log out of your account</button>
+              </div>
+            </div>
+          </div>
+
+          {/* if logged in user == post user */}
+          <div className="profileChangeCover p-[10px] mt-[1em] mb-[2em]">
+            <p>Change Cover Picture</p>
+            <div className=" block sm:flex justify-between items-center gap-[1em]">
+              <div className="flex-[0.8] mb-3 sm:mb-0">
+                {" "}
+                <input
+                  type="text"
+                  placeholder="Enter Cover pic url"
+                  className="w-[100%] p-[10px] outline-none "
+                  style={{ borderBottom: "3px solid green" }}
+                />
+              </div>
+              <div
+                className="flex-[0.2] flex items-center gap-[5px] cursor-pointer p-[10px] justify-center rounded-lg"
+                style={{ border: "3px solid green" }}
+              >
+                <button>Change</button>
+                <MdOutlineCreate className="text-xl" />
+              </div>
+            </div>
+          </div>
+
+          <div>all my posts. You cannot create post</div>
+          <Posts />
+        </div>
+        <div className="hidden lg:flex lg:w-[20%] ">
+          <Rightbar />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Profile;

@@ -6,6 +6,10 @@ import FarmerAuth from "./screens/farmerAuth/FarmerAuth";
 import FriendAuth from "./screens/friendAuth/FriendAuth";
 import Landing from "./screens/landing/Landing";
 import "./App.css";
+import Info from "./screens/info/Info";
+import Shop from "./screens/shop/Shop";
+import Invest from "./screens/invest/Invest";
+import Profile from "./screens/profile/Profile";
 
 function App() {
   return (
@@ -16,6 +20,10 @@ function App() {
           <Route path="/landing" element={<Landing />} />
           <Route path="/fauth" element={<FarmerAuth />} />
           <Route path="/uauth" element={<FriendAuth />} />
+          <Route path="/info" element={<Info />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/invest" element={<Invest />} />
+          <Route path="/profile/:id" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

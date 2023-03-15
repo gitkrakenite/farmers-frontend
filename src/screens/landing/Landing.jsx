@@ -7,16 +7,16 @@ import "./landing.css";
 
 const Landing = () => {
   return (
-    <div className="pl-[2em] pr-[2em] pt-[1em] w-[100%]">
+    <div className="  md:pl-[10px] md:pr-[10px] lg:pl-[2em] lg:pr-[2em] md:pt-[1em] w-[100%]">
       <Header />
       <div className="flex pt-[2em] gap-[10px]">
-        <div className="w-[20%] ">
+        <div className=" hidden lg:flex lg:w-[20%] ">
           <Problems />
         </div>
-        <div className="w-[60%] ">
+        <div className="w-[100%] lg:w-[60%] ">
           <Posts />
         </div>
-        <div className="w-[20%] ">
+        <div className="hidden lg:flex lg:w-[20%] ">
           <Rightbar />
         </div>
       </div>

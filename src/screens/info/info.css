@@ -1,0 +1,38 @@
+.createInfoBtn {
+  background-color: green;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.5s ease;
+  border: 2px solid green;
+}
+
+.createInfoBtn:hover {
+  background: none;
+  color: rgb(58, 58, 58);
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 1px;
+  border-bottom-right-radius: 1px;
+}
+
+.clearInfoBtn {
+  background: none;
+  color: rgb(58, 58, 58);
+  border: 2px solid orangered;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 17px;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 1px;
+  border-bottom-right-radius: 1px;
+}
+
+.clearInfoBtn:hover {
+  background-color: orangered;
+  color: white;
+  border-radius: 10px;
+  transition: all 0.5s ease;
+}

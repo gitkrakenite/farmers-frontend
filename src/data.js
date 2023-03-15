@@ -72,3 +72,30 @@ export const dummyNews = [
     createdAt: "15 mins Ago",
   },
 ];
+
+export const dummyInfo = [
+  {
+    id: 1,
+    title: "Best cattle rearing hacks",
+    info: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+    user: "josh hameddani",
+    createdAt: "1 min ago",
+    category: "Cattle",
+  },
+  {
+    id: 2,
+    title: "Chicken is very profitable",
+    info: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+    user: "josh hameddani",
+    createdAt: "4 mins ago",
+    category: "poultry",
+  },
+  {
+    id: 3,
+    title: "Technology in farming",
+    info: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+    user: "josh hameddani",
+    createdAt: "1 min ago",
+    category: "tech",
+  },
+];

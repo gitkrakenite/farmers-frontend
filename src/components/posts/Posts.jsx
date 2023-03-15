@@ -70,7 +70,7 @@ const Posts = () => {
   };
 
   return (
-    <div className="p-[10px]">
+    <div className="p-[10px] relative">
       {/* create section */}
       <div>
         <div>
@@ -194,7 +194,7 @@ const Posts = () => {
               {post.info}
             </p>
 
-            <div className="flex justify-between p-[10px]">
+            <div className=" block sm:flex justify-between p-[10px]">
               <p>Posted By : {post.user}</p>
               <p>When : {post.createdAt}</p>
               <p>Category : {post.category}</p>

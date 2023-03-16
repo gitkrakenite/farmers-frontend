@@ -99,3 +99,62 @@ export const dummyInfo = [
     category: "tech",
   },
 ];
+
+export const dummyProducts = [
+  {
+    id: 1,
+    title: "Eggs",
+    desc: "Contact me for the best broiler eggs",
+    price: 200,
+    productimg:
+      "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  },
+  {
+    id: 2,
+    title: "Maize",
+    desc: "Contact me for the best cereals",
+    price: 200,
+    productimg:
+      "https://images.pexels.com/photos/6316517/pexels-photo-6316517.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  },
+  {
+    id: 3,
+    title: "Mangoes",
+    desc: "Contact me for the best broiler eggs",
+    price: 200,
+    productimg:
+      "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  },
+  {
+    id: 4,
+    title: "Oranges",
+    desc: "Contact me for the best broiler eggs",
+    price: 200,
+    productimg:
+      "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  },
+  {
+    id: 5,
+    title: "Oranges",
+    desc: "Contact me for the best broiler eggs",
+    price: 200,
+    productimg:
+      "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  },
+  {
+    id: 6,
+    title: "Oranges",
+    desc: "Contact me for the best broiler eggs",
+    price: 200,
+    productimg:
+      "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  },
+  {
+    id: 7,
+    title: "Oranges",
+    desc: "Contact me for the best broiler eggs",
+    price: 200,
+    productimg:
+      "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  },
+];

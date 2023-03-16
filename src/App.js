@@ -10,6 +10,7 @@ import Info from "./screens/info/Info";
 import Shop from "./screens/shop/Shop";
 import Invest from "./screens/invest/Invest";
 import Profile from "./screens/profile/Profile";
+import Singleproduct from "./screens/singleProduct/Singleproduct";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/invest" element={<Invest />} />
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/product/:id" element={<Singleproduct />} />
         </Routes>
       </BrowserRouter>
     </div>

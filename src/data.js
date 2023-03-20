@@ -158,3 +158,39 @@ export const dummyProducts = [
       "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
 ];
+
+export const dummyBid = [
+  {
+    id: 1,
+    item: "Cow",
+    description:
+      "I am proposing a bid. Ksh.50,000 for this profitable cow. The winner will get back 5% profit every month till the 50k is paid back, and free milk",
+    imgUrl:
+      "https://images.pexels.com/photos/458991/pexels-photo-458991.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    category: "livestock",
+    status: "open",
+    createdAt: "2 mins from now",
+  },
+  {
+    id: 2,
+    item: "Tractor",
+    description:
+      "I am proposing a bid. Ksh.50,000 for this profitable cow. The winner will get back 5% profit every month till the 50k is paid back, and free milk",
+    imgUrl:
+      "https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    category: "livestock",
+    status: "open",
+    createdAt: "2 mins from now",
+  },
+  {
+    id: 3,
+    item: "Cow",
+    description:
+      "I am proposing a bid. Ksh.50,000 for this profitable cow. The winner will get back 5% profit every month till the 50k is paid back, and free milk",
+    imgUrl:
+      "https://images.pexels.com/photos/458991/pexels-photo-458991.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    category: "livestock",
+    status: "close",
+    createdAt: "2 mins from now",
+  },
+];

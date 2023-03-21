@@ -2,8 +2,10 @@ import React from "react";
 import { dummyNews } from "../../data";
 import "./rightbar.css";
 import { AiOutlineClockCircle } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const Rightbar = () => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <div
       className="h-[100vh] overflow-y-scroll p-[5px] hide-scrollbar "
@@ -16,7 +18,7 @@ const Rightbar = () => {
     >
       <div>
         {/* news */}
-        <p>What is happening ?</p>
+        <p>{user.name}, here is what's up ?</p>
 
         {dummyNews?.map((news) => (
           <div key={news.id} className="rightNews p-[7px]">

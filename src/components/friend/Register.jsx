@@ -9,9 +9,9 @@ import {
 const Register = () => {
   const [show, setShow] = useState(false);
   return (
-    <div className="pl-[1em] pr-[1em] mt-[4em] ">
+    <div className="pl-[10px] md:pl-[1em] pr-[10px] md:pr-[1em] mt-[10px] md:mt-[4em] ">
       <div className="flex justify-center items-center bg-slate-100 pt-[50px] pb-[50px]">
-        <div className="flex-[0.5]">
+        <div className="flex-[1] lg:flex-[0.5]">
           <h3 className="text-xl">HELLO THERE. WE VALUE YOU</h3>
           <h4 className="text-lg mb-[20px]">Create new account</h4>
           <div>
@@ -92,7 +92,7 @@ const Register = () => {
             </form>
           </div>
         </div>
-        <div className="flex-[0.4] ">
+        <div className="hidden lg:flex flex-[0.4] ">
           <div className="relative group">
             <img
               src="https://images.pexels.com/photos/10133324/pexels-photo-10133324.jpeg?auto=compress&cs=tinysrgb&w=1600"

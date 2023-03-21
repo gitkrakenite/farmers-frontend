@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineCreate } from "react-icons/md";
-import { Link } from "react-router-dom";
-import Header from "../../components/header/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+// import Header from "../../components/header/Header";
 import Posts from "../../components/posts/Posts";
 import Problems from "../../components/problems/Problems";
 import Rightbar from "../../components/rightbar/Rightbar";
 import "./profile.css";
+import { useParams } from "react-router-dom";
+import axios from "../../axios";
+import { logout } from "../../features/auth/authSlice";
+import moment from "moment";
 
 // make an api that fetches the user data from db based on user id
 // make an api that fetches all posts based on a user id.
@@ -13,6 +18,37 @@ import "./profile.css";
 // if fetched posts.name === logged in username then show delete icon.
 
 const Profile = () => {
+  const [navuser, setNavUser] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // harvest id from the parameter url
+  let { id } = useParams();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+
+  const { user } = useSelector((state) => state.auth);
+
+  const fetchUser = async () => {
+    // console.log(id);
+    const response = await axios.get(`/user/${id}`);
+    setNavUser(response.data);
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/fauth");
+    }
+  }, []);
+
+  // console.log(user);
   return (
     <div className=" p-[5px] md:pl-[10px] md:pr-[10px] lg:pl-[2em] lg:pr-[2em] md:pt-[1em] w-[100%]">
       {/* header */}
@@ -49,7 +85,7 @@ const Profile = () => {
             {/* profile */}
             <div className="flex justify-center mt-[-2.7em]">
               <img
-                src="https://images.pexels.com/photos/207353/pexels-photo-207353.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                src={navuser?.profile}
                 alt=""
                 className="w-[100px] h-[100px] object-cover rounded-full"
               />
@@ -60,21 +96,21 @@ const Profile = () => {
               <div className=" block sm:flex justify-between items-center">
                 <p>
                   Hello my name is :{" "}
-                  <span className="text-zinc-800">Mark Nderitu</span>
+                  <span className="text-zinc-800">{navuser?.name}</span>
                 </p>
                 <p>
                   My email is :{" "}
                   <a href="mailto:jujs@gmail.com">
-                    <span className="text-zinc-800">
-                      mark.nderitu@gmail.com
-                    </span>
+                    <span className="text-zinc-800">{navuser?.email}</span>
                   </a>
                 </p>
               </div>
 
               <p>
                 Joined the community{" "}
-                <span className="text-zinc-800">2 days ago</span>
+                <span className="text-zinc-800">
+                  {moment(navuser?.createdAt).fromNow()}
+                </span>
               </p>
               <p>
                 My{" "}
@@ -99,34 +135,42 @@ const Profile = () => {
                 </a>{" "}
                 to chat with me and others.
               </p>
-              <div className="bg-red-700 flex justify-center text-zinc-200 p-[10px] rounded-xl cursor-pointer">
-                <button>Log out of your account</button>
-              </div>
+
+              {user?.email === navuser?.email && (
+                <div className="bg-red-700 flex justify-center text-zinc-200 p-[10px] rounded-xl cursor-pointer">
+                  <button onClick={handleLogout}>
+                    Log out of your account
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
           {/* if logged in user == post user */}
-          <div className="profileChangeCover p-[10px] mt-[1em] mb-[2em]">
-            <p>Change Cover Picture</p>
-            <div className=" block sm:flex justify-between items-center gap-[1em]">
-              <div className="flex-[0.8] mb-3 sm:mb-0">
-                {" "}
-                <input
-                  type="text"
-                  placeholder="Enter Cover pic url"
-                  className="w-[100%] p-[10px] outline-none "
-                  style={{ borderBottom: "3px solid green" }}
-                />
-              </div>
-              <div
-                className="flex-[0.2] flex items-center gap-[5px] cursor-pointer p-[10px] justify-center rounded-lg"
-                style={{ border: "3px solid green" }}
-              >
-                <button>Change</button>
-                <MdOutlineCreate className="text-xl" />
+
+          {user?.email === navuser?.email && (
+            <div className="profileChangeCover p-[10px] mt-[1em] mb-[2em]">
+              <p>Change Cover Picture</p>
+              <div className=" block sm:flex justify-between items-center gap-[1em]">
+                <div className="flex-[0.8] mb-3 sm:mb-0">
+                  {" "}
+                  <input
+                    type="text"
+                    placeholder="Enter Cover pic url"
+                    className="w-[100%] p-[10px] outline-none "
+                    style={{ borderBottom: "3px solid green" }}
+                  />
+                </div>
+                <div
+                  className="flex-[0.2] flex items-center gap-[5px] cursor-pointer p-[10px] justify-center rounded-lg"
+                  style={{ border: "3px solid green" }}
+                >
+                  <button>Change</button>
+                  <MdOutlineCreate className="text-xl" />
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           <div>all my posts. You cannot create post</div>
           <Posts />

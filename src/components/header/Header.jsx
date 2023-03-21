@@ -3,12 +3,16 @@ import "./header.css";
 import { Link } from "react-router-dom";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { FaPhoenixSquadron } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
   const ScrollTop = () => {
     window.scrollTo(0, 0);
   };
+
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <div
       style={{
@@ -55,14 +59,14 @@ const Header = () => {
           </form>
         </div>
         {/* user details */}
-        <Link to="/profile/45">
+        <Link to={`/profile/${user?._id}`}>
           <div className="flex gap-[10px] items-center bg-slate-200 rounded-xl p-[5px] cursor-pointer">
             <div className="flex items-center text-zinc-800">
-              <span>Hello Joyce</span>
+              <span>Hello {user?.name}</span>
             </div>
             <div>
               <img
-                src="https://images.pexels.com/photos/3221849/pexels-photo-3221849.png?auto=compress&cs=tinysrgb&w=1600"
+                src={user?.profile}
                 alt=""
                 className="w-[40px] h-[40px] object-cover rounded-full"
               />

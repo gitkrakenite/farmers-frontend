@@ -6,6 +6,7 @@ import App from "./App";
 
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Toaster } from "react-hot-toast";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -13,6 +14,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <Toaster position="top-right" />
       <App />
     </Provider>
   </React.StrictMode>

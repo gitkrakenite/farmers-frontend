@@ -4,6 +4,7 @@ import { MdCreate, MdClear } from "react-icons/md";
 import { BsCloudUpload } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { dummyPosts } from "../../data";
+import { Link } from "react-router-dom";
 
 const Posts = () => {
   const [create, setCreate] = useState(false);
@@ -195,7 +196,10 @@ const Posts = () => {
             </p>
 
             <div className=" block sm:flex justify-between p-[10px]">
-              <p>Posted By : {post.user}</p>
+              <p>
+                Posted By :{" "}
+                <Link to={`/profile/${post.user}`}>{post.user}</Link>{" "}
+              </p>
               <p>When : {post.createdAt}</p>
               <p>Category : {post.category}</p>
               <RiDeleteBinLine

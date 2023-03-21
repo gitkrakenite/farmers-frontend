@@ -35,7 +35,7 @@ const Invest = () => {
             />
           </div>
 
-          <Link to="profile/45">
+          <Link to="/profile/45">
             <div>
               <img
                 src="https://images.pexels.com/photos/11734663/pexels-photo-11734663.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
@@ -104,14 +104,14 @@ const Invest = () => {
         <div>
           {dummyBid.map((bid) => (
             <div key={bid.id} className="eachPost p-[10px] mb-[20px]">
-              <div className="flex justify-between items-center">
+              <div className=" md:flex justify-between items-center">
                 <p>CreatedBy: Mike zoe {bid.createdAt}</p>
                 <p>item: {bid.item}</p>
                 <p>Category: {bid.category}</p>
               </div>
               <p>{bid.description}</p>
               <img src={bid.imgUrl} alt={bid.item} className="w-[150px]" />
-              <div className="flex justify-between items-center">
+              <div className=" md:flex justify-between items-center">
                 <div>
                   {bid.status === "open" ? (
                     <p className="mt-[1em] ">
@@ -130,7 +130,7 @@ const Invest = () => {
                 </div>
                 {bid.status === "open" && (
                   <div>
-                    <form className="flex gap-[8px]">
+                    <form className="flex flex-col md:flex-row gap-[8px]">
                       <input
                         type="text"
                         placeholder="Enter your bidding info"
@@ -143,17 +143,17 @@ const Invest = () => {
                     </form>
                   </div>
                 )}
-                <div>
+                <div className="mt-[1em] md:mt-0">
                   {showBids ? (
                     <button
-                      className="bg-green-800 text-white p-2"
+                      className="bg-green-800 text-white p-2 rounded-md"
                       onClick={() => setShowBids(!showBids)}
                     >
                       Hide bids
                     </button>
                   ) : (
                     <button
-                      className="bg-green-800 text-white p-2"
+                      className="bg-green-800 text-white p-2 rounded-md"
                       onClick={() => setShowBids(!showBids)}
                     >
                       See Other bids
@@ -165,9 +165,9 @@ const Invest = () => {
               {showBids && (
                 <div className="mt-[3em]">
                   <h2 className="text-2xl">All Bids</h2>
-                  <div className="h-[10vh] overflow-y-scroll">
+                  <div className="h-[20vh] overflow-y-scroll">
                     <div
-                      className="flex items-center gap-2 p-2"
+                      className=" md:flex items-center gap-2 p-2"
                       style={{ borderBottom: "1px solid green" }}
                     >
                       <p className="text-zinc-900">Josh Brumhn</p>
@@ -180,7 +180,7 @@ const Invest = () => {
                     </div>
                     {/*  */}
                     <div
-                      className="flex items-center gap-2 p-2"
+                      className=" md:flex items-center gap-2 p-2"
                       style={{ borderBottom: "1px solid green" }}
                     >
                       <p className="text-zinc-900">Josh Brumhn</p>

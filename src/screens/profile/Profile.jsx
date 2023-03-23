@@ -194,9 +194,15 @@ const Profile = () => {
 
           {/* posts sections */}
 
-          <h2 className="mt-[10px] mb-[10px] text-lg">
-            Here are all {navuser?.name} posts ...
-          </h2>
+          {user?.email === navuser?.email ? (
+            <h2 className="mt-[10px] mb-[10px] text-lg">
+              Here are all your posts ...
+            </h2>
+          ) : (
+            <h2 className="mt-[10px] mb-[10px] text-lg">
+              Here are all {`${navuser?.name}'s`} posts ...
+            </h2>
+          )}
 
           {posts.map((post) => (
             <div key={post._id}>

@@ -62,7 +62,7 @@ const Header = () => {
         <Link to={`/profile/${user?._id}`}>
           <div className="flex gap-[10px] items-center bg-slate-200 rounded-xl p-[5px] cursor-pointer">
             <div className="flex items-center text-zinc-800">
-              <span>Hello {user?.name}</span>
+              <span>Hello {user.name.split(" ")[0]}</span>
             </div>
             <div>
               <img

@@ -138,13 +138,17 @@ const Login = () => {
                   {/* < /> */}
                 </div>
               </div>
-              <button
-                type="submit"
-                className="bg-green-700  ml-[20px] p-[10px] text-slate-200 rounded-lg"
-                onClick={handleSubmit}
-              >
-                Sign In
-              </button>
+              {isLoading ? (
+                <Spinner message="Please Wait" />
+              ) : (
+                <button
+                  type="submit"
+                  className="bg-green-700  ml-[20px] p-[10px] text-slate-200 rounded-lg"
+                  onClick={handleSubmit}
+                >
+                  Sign In
+                </button>
+              )}
             </form>
           </div>
         </div>

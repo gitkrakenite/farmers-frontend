@@ -30,7 +30,9 @@ const Profile = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/fauth");
+    // navigate("/fauth");
+    localStorage.removeItem("user");
+    navigate("/");
   };
 
   const { user } = useSelector((state) => state.auth);
@@ -63,7 +65,7 @@ const Profile = () => {
     if (!user) {
       navigate("/fauth");
     }
-  }, []);
+  }, [user]);
 
   // console.log(user);
   return (
@@ -154,10 +156,11 @@ const Profile = () => {
               </p>
 
               {user?.email === navuser?.email && (
-                <div className="bg-red-700 flex justify-center text-zinc-200 p-[10px] rounded-xl cursor-pointer">
-                  <button onClick={handleLogout}>
-                    Log out of your account
-                  </button>
+                <div
+                  className="bg-red-700 flex justify-center text-zinc-200 p-[10px] rounded-xl cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  <button>Log out of your account</button>
                 </div>
               )}
             </div>
@@ -190,9 +193,10 @@ const Profile = () => {
           )}
 
           {/* posts sections */}
-          {console.log(navuser?.name)}
 
-          {/* {console.log(posts)} */}
+          <h2 className="mt-[10px] mb-[10px] text-lg">
+            Here are all {navuser?.name} posts ...
+          </h2>
 
           {posts.map((post) => (
             <div key={post._id}>

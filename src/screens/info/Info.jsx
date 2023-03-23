@@ -1,14 +1,53 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import "./info.css";
 import { dummyInfo } from "../../data";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { useSelector, useDispatch } from "react-redux";
+
+import { getInfo, deleteInfo } from "../../features/info/infoSlice";
+import { toast } from "react-hot-toast";
+import Spinner from "../../components/Spinner";
+import moment from "moment";
 
 const Info = () => {
+  const dispatch = useDispatch();
+
   const ScrollTop = () => {
     window.scrollTo(0, 0);
   };
+
+  const handleDeleteInfo = (infoId) => {
+    if (!infoId) {
+      toast.error("ID needed");
+      return;
+    } else {
+      dispatch(deleteInfo(infoId));
+      toast.success("Deleted successfully");
+    }
+  };
+
+  const { user } = useSelector((state) => state.auth);
+
+  const { information, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.information
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error("Failed to fetch" + message);
+    }
+
+    if (isSuccess) {
+      toast.success("Fetched All Info!");
+    }
+  }, [information, isError, isSuccess, message, dispatch]);
+
+  useEffect(() => {
+    dispatch(getInfo());
+  }, [dispatch]);
+
   return (
     <div className=" pl-[6px] pr-[6px] pt-[5px] md:pl-[2em] md:pr-[2em] md:pt-[1em]">
       {/* header */}
@@ -40,13 +79,13 @@ const Info = () => {
 
           {/* user details */}
           <div>
-            <Link to="/profile/45" className="  ">
+            <Link to={`/profile/${user._id}`} className="  ">
               <div className="flex gap-[10px] items-center  rounded-xl p-[5px] cursor-pointer justify-center">
                 <div
                   className=" hidden lg:flex items-center text-zinc-800 p-[10px]"
                   style={{ border: "1px solid green" }}
                 >
-                  <span>Hello Joyce</span>
+                  <span>Hello {user.name.split(" ")[0]}</span>
                 </div>
                 <div>
                   <img
@@ -77,33 +116,48 @@ const Info = () => {
       </div>
 
       {/* all posts */}
+      {isLoading && <Spinner message="Loading info" />}
       <div className="mt-[2em]">
         <div className="flex flex-col-reverse md:flex-row justify-between gap-4">
           <div className="flex-[0.6]">
-            {dummyInfo?.map((info) => (
-              <div className="eachPost p-[5px] md:p-4 mb-3" key={info.id}>
+            {information?.map((info) => (
+              <div className="eachPost p-[5px] md:p-4 mb-3" key={info._id}>
                 <p className="m-0 p-0">
                   Title : <span className="text-green-700">{info.title}</span>{" "}
                 </p>
                 <p className="m-0 p-0">Category : {info.category}</p>
                 <p>
-                  Created by <span className="text-green-700">{info.user}</span>{" "}
-                  {info.createdAt}
+                  Created by{" "}
+                  <span className="text-green-700">
+                    <Link
+                      to={`/profile/${info.userId}`}
+                      // className="text-green-700"
+                    >
+                      {info.username}
+                    </Link>
+                  </span>{" "}
+                  {moment(info.createdAt).fromNow()}
                 </p>
-                <p>{info.info}</p>
+                <p>{info.information}</p>
 
                 {/* if logged in user equals to post user */}
-                <div className="flex justify-end">
-                  <RiDeleteBinLine
-                    className="text-2xl text-red-600 cursor-pointer"
-                    title="Delete info"
-                  />
-                </div>
+                {user.name === info.username && (
+                  <div className="flex justify-end">
+                    <RiDeleteBinLine
+                      className="text-2xl text-red-600 cursor-pointer"
+                      title="Delete post"
+                      onClick={() => handleDeleteInfo(info._id)}
+                    />
+                  </div>
+                )}
               </div>
             ))}
           </div>
           {/* create posts */}
           <div className="flex-[0.4]">
+            <h2 className="text-lg mb-3 underline">
+              Do you have good advice {user.name} ?
+            </h2>
             <form className="flex flex-col gap-4">
               <label htmlFor="title">Title</label>
               <input

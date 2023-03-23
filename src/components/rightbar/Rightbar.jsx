@@ -43,6 +43,9 @@ const Rightbar = () => {
                 <p className="text-green-600">Verified</p>
               </div>
             </div>
+            <p className="text-sm text-blue-600 cursor-pointer">
+              Click for full article
+            </p>
           </div>
         ))}
       </div>

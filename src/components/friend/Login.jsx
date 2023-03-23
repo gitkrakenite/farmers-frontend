@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import {
   AiOutlineEye,
@@ -6,8 +6,54 @@ import {
   AiOutlineMail,
 } from "react-icons/ai";
 
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { login, reset } from "../../features/auth/authSlice";
+import { toast } from "react-hot-toast";
+import Spinner from "../Spinner";
+
 const Login = () => {
   const [show, setShow] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error("All details needed");
+      return;
+    } else {
+      try {
+        const userData = { email, password };
+        dispatch(login(userData));
+        // toast.success("Welcome to connect");
+      } catch (error) {
+        toast.error("Invalid credentials");
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isError) {
+      toast.error("Invalid credentials: " + message);
+    }
+
+    if (isSuccess || user) {
+      toast.success("Welcome!");
+      navigate("/landing");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
   return (
     <div className="pl-[10px] md:pl-[1em] pr-[10px] md:pr-[1em] mt-[10px] md:mt-[4em] ">
       <div className="flex justify-center items-center bg-slate-100 pt-[50px] pb-[50px]">
@@ -50,6 +96,10 @@ const Login = () => {
                     placeholder="Enter your email"
                     required
                     className="bg-transparent outline-none"
+                    maxLength={30}
+                    minLength={5}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div>
@@ -66,6 +116,10 @@ const Login = () => {
                     required
                     id="password"
                     className="bg-transparent outline-none"
+                    maxLength={30}
+                    minLength={5}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div>
@@ -84,12 +138,18 @@ const Login = () => {
                   {/* < /> */}
                 </div>
               </div>
-              <button
-                type="submit"
-                className="bg-green-700  ml-[20px] p-[10px] text-slate-200 rounded-lg"
-              >
-                Sign In
-              </button>
+
+              {isLoading ? (
+                <Spinner message="Please Wait" />
+              ) : (
+                <button
+                  type="submit"
+                  className="bg-green-700  ml-[20px] p-[10px] text-slate-200 rounded-lg"
+                  onClick={handleSubmit}
+                >
+                  Sign In
+                </button>
+              )}
             </form>
           </div>
         </div>

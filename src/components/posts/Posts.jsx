@@ -190,18 +190,20 @@ const Posts = () => {
       {/* create section */}
       <div>
         <div>
-          <div
-            className="flex items-center justify-center gap-[5px] cursor-pointer mb-[2em] rounded-md p-[5px]"
-            style={{ border: "2px solid #0d6316" }}
-            onClick={() => setCreate(!create)}
-          >
-            <div>
-              <h1 className="text-xl">Express your thoughts</h1>
+          {user?.category === "farmer" && (
+            <div
+              className="flex items-center justify-center gap-[5px] cursor-pointer mb-[2em] rounded-md p-[5px]"
+              style={{ border: "2px solid #0d6316" }}
+              onClick={() => setCreate(!create)}
+            >
+              <div>
+                <h1 className="text-xl">Express your thoughts</h1>
+              </div>
+              <div>
+                <MdCreate className="text-xl mb-2" />
+              </div>
             </div>
-            <div>
-              <MdCreate className="text-xl mb-2" />
-            </div>
-          </div>
+          )}
           {create && (
             <div className="flex justify-between items-center">
               <p

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import {
   AiOutlineEye,
@@ -6,11 +6,61 @@ import {
   AiOutlineMail,
 } from "react-icons/ai";
 
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { register, reset } from "../../features/auth/authSlice";
+import { toast } from "react-hot-toast";
+import Spinner from "../Spinner";
+
 const Register = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [category, setCategory] = useState("");
+  const [password, setPassword] = useState("");
+
   const [show, setShow] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error("Error occurred" + message);
+    }
+
+    if (isSuccess || user) {
+      toast.success("Welcome!");
+      navigate("/landing");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setCategory("friend");
+    if (!name || !category || !email || !password) {
+      toast.error("All details needed");
+      return;
+    } else {
+      try {
+        const userData = { name, email, category, password };
+        dispatch(register(userData));
+        // toast.success("Welcome to connect");
+      } catch (error) {
+        toast.error("An error occurres" + message);
+        alert("Registration failed");
+      }
+    }
+  };
+
   return (
     <div className="pl-[10px] md:pl-[1em] pr-[10px] md:pr-[1em] mt-[10px] md:mt-[4em] ">
-      <div className="flex justify-center items-center bg-slate-100 pt-[50px] pb-[50px]">
+      <div className="flex justify-center  bg-slate-100 pt-[50px] pb-[50px]">
         <div className="flex-[1] lg:flex-[0.5]">
           <h3 className="text-xl">HELLO THERE. WE VALUE YOU</h3>
           <h4 className="text-lg mb-[20px]">Create new account</h4>
@@ -33,6 +83,8 @@ const Register = () => {
                     placeholder="Enter your full name"
                     required
                     className="bg-transparent outline-none"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div>
@@ -49,6 +101,8 @@ const Register = () => {
                     placeholder="Enter your email"
                     required
                     className="bg-transparent outline-none"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div>
@@ -65,6 +119,8 @@ const Register = () => {
                     required
                     id="password"
                     className="bg-transparent outline-none"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div>
@@ -83,12 +139,17 @@ const Register = () => {
                   {/* < /> */}
                 </div>
               </div>
-              <button
-                type="submit"
-                className="bg-green-700 mr-[20px] p-[10px] text-slate-200 rounded-lg"
-              >
-                Create Account
-              </button>
+              {isLoading ? (
+                <Spinner message="Please Wait" />
+              ) : (
+                <button
+                  type="submit"
+                  className="bg-green-700 mr-[20px] p-[10px] text-slate-200 rounded-lg"
+                  onClick={handleSubmit}
+                >
+                  Create Account
+                </button>
+              )}
             </form>
           </div>
         </div>

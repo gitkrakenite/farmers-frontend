@@ -25,7 +25,7 @@ const Problems = () => {
 
   useEffect(() => {
     dispatch(getIssues());
-  }, [dispatch, issues]);
+  }, [dispatch]);
 
   return (
     <div className=" w-[100%]">

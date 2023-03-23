@@ -11,6 +11,9 @@ import { useParams } from "react-router-dom";
 import axios from "../../axios";
 import { logout } from "../../features/auth/authSlice";
 import moment from "moment";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { toast } from "react-hot-toast";
+import { deletePost } from "../../features/posts/postSlice";
 
 // make an api that fetches the user data from db based on user id
 // make an api that fetches all posts based on a user id.
@@ -27,10 +30,13 @@ const Profile = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/login");
+    navigate("/fauth");
   };
 
   const { user } = useSelector((state) => state.auth);
+  const { posts, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.posts
+  );
 
   const fetchUser = async () => {
     // console.log(id);
@@ -38,8 +44,19 @@ const Profile = () => {
     setNavUser(response.data);
   };
 
+  const handleDeletePost = (postId) => {
+    if (!postId) {
+      toast.error("ID needed");
+      return;
+    } else {
+      dispatch(deletePost(postId));
+      toast.success("Deleted successfully");
+    }
+  };
+
   useEffect(() => {
     fetchUser();
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -172,8 +189,55 @@ const Profile = () => {
             </div>
           )}
 
-          <div>all my posts. You cannot create post</div>
-          <Posts />
+          {/* posts sections */}
+          {console.log(navuser?.name)}
+
+          {/* {console.log(posts)} */}
+
+          {posts.map((post) => (
+            <div key={post._id}>
+              {navuser?.name === post.username && (
+                <div className="eachPost mb-[20px] rounded-md">
+                  <img
+                    src={post.postImg}
+                    alt="postImg"
+                    style={{
+                      maxHeight: "750px",
+                      width: "100%",
+                      objectFit: "cover",
+                    }}
+                    className="rounded-md"
+                  />
+
+                  <p
+                    className="mt-[15px] p-[10px]"
+                    style={{ lineHeight: "1.8em" }}
+                  >
+                    {post.info}
+                  </p>
+
+                  <div className=" block sm:flex justify-between p-[10px]">
+                    <p>
+                      Posted By :{" "}
+                      <Link to={`/profile/${post.userId}`}>
+                        {post.username}
+                      </Link>{" "}
+                    </p>
+                    <p>When : {moment(post.createdAt).fromNow()}</p>
+                    {/* <p>Category : {post.category}</p> */}
+
+                    {user.name === post.username && (
+                      <RiDeleteBinLine
+                        className="text-2xl text-red-600 cursor-pointer"
+                        title="Delete post"
+                        onClick={() => handleDeletePost(post._id)}
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
         <div className="hidden lg:flex lg:w-[20%] ">
           <Rightbar />

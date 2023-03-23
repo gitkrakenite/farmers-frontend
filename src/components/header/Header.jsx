@@ -49,7 +49,7 @@ const Header = () => {
           </div>
         </div>
         {/* search field */}
-        <div className=" flex-[0.7] lg:flex-[0.3]">
+        {/* <div className=" flex-[0.7] lg:flex-[0.3]">
           <form className="bg-slate-200 rounded-xl">
             <input
               type="text"
@@ -57,7 +57,7 @@ const Header = () => {
               className="bg-transparent text-lg p-[8px] outline-none border-none w-[100%]"
             />
           </form>
-        </div>
+        </div> */}
         {/* user details */}
         <Link to={`/profile/${user?._id}`}>
           <div className="flex gap-[10px] items-center bg-slate-200 rounded-xl p-[5px] cursor-pointer">
@@ -181,7 +181,7 @@ const Header = () => {
               </div>
             </div>
             {/* search field */}
-            <div className="w-[100%] mb-[1em]">
+            {/* <div className="w-[100%] mb-[1em]">
               <form className="bg-slate-200 rounded-xl">
                 <input
                   type="text"
@@ -190,20 +190,20 @@ const Header = () => {
                   // style={{ border: "2px solid #0f5c1d" }}
                 />
               </form>
-            </div>
+            </div> */}
             {/* user details */}
 
             <Link
-              to="/profile/45"
+              to={`/profile/${user?._id}`}
               className="flex justify-between items-center bg-green-800 rounded-xl p-[5px] cursor-pointer w-[100%]"
               style={{ border: "1px solid white" }}
             >
               <div className="flex items-center text-zinc-100">
-                <span>Hello Joyce</span>
+                <span>Hello {user?.name}</span>
               </div>
               <div>
                 <img
-                  src="https://images.pexels.com/photos/3221849/pexels-photo-3221849.png?auto=compress&cs=tinysrgb&w=1600"
+                  src={user?.profile}
                   alt=""
                   className="w-[40px] h-[40px] object-cover rounded-full"
                 />

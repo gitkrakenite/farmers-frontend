@@ -42,6 +42,11 @@ const Shop = () => {
 
   // setInterval(getRandomHeroImg(), 3000);
 
+  const handleNav = () => {
+    window.scrollTo(0, 1000);
+    // alert("ff");
+  };
+
   return (
     <div>
       {/* top strip */}
@@ -76,7 +81,7 @@ const Shop = () => {
           <div>
             <AiOutlineShoppingCart className="text-3xl text-green-700" />
           </div>
-          <div>
+          <div onClick={handleNav} className="cursor-pointer">
             <h2>
               Deals<span className="text-green-700">Drive</span>
             </h2>
@@ -154,91 +159,130 @@ const Shop = () => {
       )}
 
       {/* hero section */}
-      <div className="relative mt-4">
-        <img
-          className="w-full h-[60vh] object-cover"
-          src={
-            heroImg
-              ? heroImg
-              : "https://images.pexels.com/photos/13760484/pexels-photo-13760484.jpeg?auto=compress&cs=tinysrgb&w=1600"
-          }
-          alt="heroImg"
-        />
-        {/* overlay div */}
-        <div className="absolute top-0 left-0 w-full h-[60vh] bg-[rgba(0,0,0,.7)]" />
-        <div className="absolute w-full h-full top-0 flex flex-col justify-center items-center pl-[3em] pr-[3em] pt-[2em]  text-white">
-          {/* content */}
-          <div className="flex text-center">
-            <div>
-              <h2
-                className=" text-3xl md:text-5xl lg:text-7xl mb-4"
-                style={{ fontWeight: 700 }}
-              >
-                Get the Best Deals Available
-              </h2>
-              <h2
-                className=" text-3xl md:text-5xl lg:text-7xl mb-[1em]"
-                style={{ fontWeight: 700 }}
-              >
-                {" "}
-                Directly from Farmers
-              </h2>
-              <p className="bg-green-700 text-zinc-100 p-[10px] rounded-lg cursor-pointer">
-                Shop Now
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* categories */}
       <div className="pl-[8px] pr-[8px] md:pl-[3em] md:pr-[3em] pt-[2em] pb-[2em]">
-        <h2>Explore our categories</h2>
-        <div className="block  sm:flex gap-2">
-          <div className="relative mb-[1em] sm:mb-0">
-            <img
-              src="https://images.pexels.com/photos/2255459/pexels-photo-2255459.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-              className="w-full rounded-lg"
-            />
-            <div className="absolute top-0 left-0 w-full h-full rounded-lg bg-[rgba(0,0,0,.45)]" />
-            <div className="absolute w-full h-full top-0 text-white flex justify-center items-center">
+        <h2 className="mb-3">Explore our categories</h2>
+        <div className="flex justify-evenly">
+          <div
+            className="cursor-pointer flex items-center gap-1"
+            style={{
+              border: "1px solid green",
+              padding: "2px 10px",
+              borderRadius: "10px",
+            }}
+          >
+            <div>
+              <img
+                src="https://images.pexels.com/photos/2255459/pexels-photo-2255459.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt=""
+                className=" w-[50px] h-[50px] rounded-full object-cover"
+              />
+            </div>
+            <div className="">
               <p className="pt-[20px] text-center text-lg">Animal Products</p>
             </div>
           </div>
-          <div className="relative mb-[1em] sm:mb-0">
-            <img
-              src="https://images.pexels.com/photos/1300975/pexels-photo-1300975.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-              className="w-full rounded-lg"
-            />
-            <div className="absolute top-0 left-0 w-full rounded-lg h-full bg-[rgba(0,0,0,.7)]" />
-            <div className="absolute w-full h-full top-0 text-white flex justify-center items-center">
+          <div
+            className="relative cursor-pointer flex items-center gap-1"
+            style={{
+              border: "1px solid green",
+              padding: "2px 10px",
+              borderRadius: "10px",
+            }}
+          >
+            <div>
+              <img
+                src="https://images.pexels.com/photos/1300975/pexels-photo-1300975.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt=""
+                className="w-[50px] h-[50px] rounded-full object-cover"
+              />
+            </div>
+            <div className="">
               <p className="pt-[20px] text-center text-lg">
                 Fruits and Vegetables
               </p>
             </div>
           </div>
-          <div className="relative mb-[1em] sm:mb-0">
-            <img
-              src="https://images.pexels.com/photos/96715/pexels-photo-96715.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-              className="w-full rounded-lg"
-            />
-            <div className="absolute top-0 left-0 w-full h-full rounded-lg bg-[rgba(0,0,0,.7)]" />
-            <div className="absolute w-full h-full top-0 text-white flex justify-center items-center">
+          <div
+            className="relative cursor-pointer flex items-center gap-1"
+            style={{
+              border: "1px solid green",
+              padding: "2px 10px",
+              borderRadius: "10px",
+            }}
+          >
+            <div>
+              <img
+                src="https://images.pexels.com/photos/96715/pexels-photo-96715.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt=""
+                className="w-[50px] h-[50px] rounded-full object-cover"
+              />
+            </div>
+
+            <div className="">
               <p className="pt-[20px] text-center text-lg">Cereals</p>
             </div>
           </div>
-          <div className="relative ">
-            <img
-              src="https://images.pexels.com/photos/3696170/pexels-photo-3696170.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-              className="w-full rounded-lg"
-            />
-            <div className="absolute top-0 left-0 w-full rounded-lg h-full bg-[rgba(0,0,0,.7)]" />
-            <div className="absolute w-full h-full top-0 text-white flex justify-center items-center">
+
+          <div
+            className="relative cursor-pointer flex items-center gap-1"
+            style={{
+              border: "1px solid green",
+              padding: "2px 10px",
+              borderRadius: "10px",
+            }}
+          >
+            <div>
+              <img
+                src="https://images.pexels.com/photos/3696170/pexels-photo-3696170.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt=""
+                className="w-[50px] h-[50px] rounded-full object-cover"
+              />
+            </div>
+
+            <div className="">
               <p className="pt-[20px] text-center text-lg">Fertilizer</p>
+            </div>
+          </div>
+          <div
+            className="relative cursor-pointer flex items-center gap-1"
+            style={{
+              border: "1px solid green",
+              padding: "2px 10px",
+              borderRadius: "10px",
+            }}
+          >
+            <div>
+              <img
+                src="https://images.pexels.com/photos/2889440/pexels-photo-2889440.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt=""
+                className="w-[50px] h-[50px] rounded-full object-cover"
+              />
+            </div>
+
+            <div className="">
+              <p className="pt-[20px] text-center text-lg">Farm Tools</p>
+            </div>
+          </div>
+          <div
+            className="relative cursor-pointer flex items-center gap-1"
+            style={{
+              border: "1px solid green",
+              padding: "2px 10px",
+              borderRadius: "10px",
+            }}
+          >
+            <div>
+              <img
+                src="https://images.pexels.com/photos/768090/pexels-photo-768090.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt=""
+                className="w-[50px] h-[50px] rounded-full object-cover"
+              />
+            </div>
+
+            <div className="a">
+              <p className="pt-[20px] text-center text-lg">Seeds</p>
             </div>
           </div>
         </div>
@@ -246,24 +290,36 @@ const Shop = () => {
 
       {/* products */}
 
-      <div className="pl-[8px] pr-[8px] md:pl-[3em] md:pr-[3em] pt-[2em] pb-[2em] h-[50vh] overflow-y-scroll hide-scrollbar">
+      <div
+        className="pl-[8px] pr-[8px] md:pl-[3em] md:pr-[3em] pt-[2em] pb-[2em] h-[90vh] overflow-y-scroll hide-scrollbar"
+        id="productS"
+      >
         <p>All Products</p>
         <div className="productWrapper">
           {dummyProducts.map((item) => (
-            <Link to={`/product/${item.id}`} key={item.id}>
-              <div key={item.id} className="productItem">
+            <div key={item.id} className="productItem">
+              <Link to={`/product/${item.id}`} key={item.id}>
                 <img
                   src={item.productimg}
                   alt=""
                   style={{ borderRadius: "10px" }}
                 />
-                <div className="flex justify-between items-center text-zinc-900 mt-3 px-3">
-                  <p>{item.title}</p>
-                  <p>Ksh. {item.price}</p>
-                </div>
-                <p className="text-zinc-500 px-3">{item.desc}</p>
+              </Link>
+              <div className="flex justify-between items-center text-zinc-900 mt-3 px-3">
+                <p>{item.title}</p>
+                <p>Ksh. {item.price}</p>
               </div>
-            </Link>
+              <p className="text-zinc-500 px-3">{item.desc}</p>
+              <div className="flex justify-between items-center ">
+                <p className="text-zinc-500 px-3">
+                  <a href="https://google.com">Click to email me</a>
+                </p>
+                <p className="text-zinc-500 px-3">
+                  On <span className="text-blue-600">Sema</span> at{" "}
+                  <span className="text-blue-600">Atwoli</span>{" "}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

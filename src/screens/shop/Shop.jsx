@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./shop.css";
 import {
   AiOutlineHome,
+  AiOutlineMinus,
   AiOutlinePhone,
   AiOutlinePlus,
   AiOutlineSearch,
@@ -9,11 +10,16 @@ import {
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { dummyProducts } from "../../data";
+import axios from "../../axios";
+import { toast } from "react-hot-toast";
+import Spinner from "../../components/Spinner";
 
 const Shop = () => {
   const [heroImg, setHeroImg] = useState("");
-
   const [showCreate, setShowCreate] = useState(false);
+  const [allProducts, setAllProducts] = useState();
+  const [loading, setLoading] = useState(false);
+  const [searchCategory, setSearchCategory] = useState("");
 
   const heroImage = [
     "https://images.pexels.com/photos/235925/pexels-photo-235925.jpeg?auto=compress&cs=tinysrgb&w=1600",
@@ -45,6 +51,59 @@ const Shop = () => {
   const handleNav = () => {
     window.scrollTo(0, 1000);
     // alert("ff");
+  };
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get("/product");
+      if (data) {
+        setAllProducts(data);
+        toast.success("Fetched Products");
+        setLoading(false);
+        return;
+      }
+    } catch (error) {
+      toast.error("Failed to fetch products");
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // search
+  const [searchText, setSearchText] = useState("");
+  const [searchTimeout, setsearchTimeout] = useState(null);
+  const [searchedResults, setSearchedResults] = useState(null);
+
+  const handleSearchChange = async (e) => {
+    e.preventDefault();
+    clearTimeout(setsearchTimeout);
+
+    setSearchText(e.target.value);
+
+    setsearchTimeout(
+      setTimeout(() => {
+        const searchResults = allProducts?.filter(
+          (item) =>
+            item.productTitle
+              .toLowerCase()
+              .includes(searchText.toLowerCase()) ||
+            item.productCategory
+              .toLowerCase()
+              .includes(searchText.toLowerCase())
+        );
+
+        setSearchedResults(searchResults);
+      }, 500)
+    );
+  };
+
+  const [changedCategory, setChangedCategory] = useState("");
+
+  const handleFetchOnCategory = () => {
+    alert(searchCategory);
   };
 
   return (
@@ -94,6 +153,8 @@ const Shop = () => {
                 type="text"
                 placeholder="Search Product"
                 className="w-full flex-1 bg-transparent  outline-none"
+                value={searchText}
+                onChange={handleSearchChange}
               />
             </div>
             <div>
@@ -105,11 +166,19 @@ const Shop = () => {
           </form>
         </div>
         <div className="flex-[0.2] flex justify-end items-center ">
-          <AiOutlinePlus
-            title="Create"
-            onClick={() => setShowCreate(!showCreate)}
-            className="bg-zinc-900 text-zinc-100 p-[10px] text-5xl rounded-lg cursor-pointer"
-          />
+          {showCreate ? (
+            <AiOutlineMinus
+              title="Hide"
+              onClick={() => setShowCreate(false)}
+              className="bg-zinc-900 text-zinc-100 p-[10px] text-5xl rounded-lg cursor-pointer"
+            />
+          ) : (
+            <AiOutlinePlus
+              title="Create"
+              onClick={() => setShowCreate(true)}
+              className="bg-zinc-900 text-zinc-100 p-[10px] text-5xl rounded-lg cursor-pointer"
+            />
+          )}
           <Link to="/landing">
             <div className="ml-[2em]">
               <AiOutlineHome className="text-3xl text-green-700" />
@@ -123,7 +192,7 @@ const Shop = () => {
       {showCreate && (
         <div className="pl-[8px] pr-[8px] md:pl-[3em] md:pr-[3em] mt-[2em]">
           <h2>Create a product</h2>
-          <form className="flex  flex-col lg:flex-row justify-between mt-3 gap-3">
+          <form className="flex  flex-col 2xl:flex-row justify-between mt-3 gap-3">
             <input
               type="text"
               placeholder="Enter Title or name"
@@ -148,6 +217,18 @@ const Shop = () => {
               className="p-[10px] rounded-md flex-[0.2] outline-none"
               style={{ border: "1px solid green" }}
             />
+            <select
+              className="p-[10px] rounded-md flex-[0.2] outline-none"
+              style={{ border: "1px solid green" }}
+            >
+              <option value="">Choose</option>
+              <option value="animal">Animal & Products</option>
+              <option value="fruits and vegetables">Fruits & Vegetables</option>
+              <option value="cereals">Cereals</option>
+              <option value="fertilizer">Fertilizer</option>
+              <option value="equipment">Farm Equipment (Jembe)</option>
+              <option value="seeds">Farm Seeds</option>
+            </select>
             <button
               className="p-[10px] rounded-md flex-[0.2] outline-none bg-green-800 text-zinc-100"
               style={{ backgroundColor: "" }}
@@ -163,7 +244,17 @@ const Shop = () => {
       {/* categories */}
       <div className="pl-[8px] pr-[8px] md:pl-[3em] md:pr-[3em] pt-[2em] pb-[2em]">
         <h2 className="mb-3">Explore our categories</h2>
-        <div className="flex justify-evenly">
+
+        <div className="flex pb-3 lg:pb-0 lg:justify-evenly gap-[20px] overflow-y-scroll">
+          <div
+            className="flex items-center cursor-pointer"
+            onClick={() => fetchProducts()}
+          >
+            <span className="bg-green-700 text-white px-5 py-2 rounded-md">
+              All
+            </span>
+          </div>
+
           <div
             className="cursor-pointer flex items-center gap-1"
             style={{
@@ -171,12 +262,28 @@ const Shop = () => {
               padding: "2px 10px",
               borderRadius: "10px",
             }}
+            onClick={async () => {
+              try {
+                setLoading(true);
+                let categoryToSearch = "animal";
+                const productData = { productCategory: categoryToSearch };
+                const { data } = await axios.post("/product/cat", productData);
+                if (data) {
+                  setAllProducts(data);
+                  setLoading(false);
+                  return;
+                }
+              } catch (error) {
+                setLoading(false);
+                console.log(error);
+              }
+            }}
           >
             <div>
               <img
                 src="https://images.pexels.com/photos/2255459/pexels-photo-2255459.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt=""
-                className=" w-[50px] h-[50px] rounded-full object-cover"
+                className=" min-w-[50px] w-[50px] h-[50px] rounded-full object-cover"
               />
             </div>
             <div className="">
@@ -190,12 +297,28 @@ const Shop = () => {
               padding: "2px 10px",
               borderRadius: "10px",
             }}
+            onClick={async () => {
+              try {
+                setLoading(true);
+                let categoryToSearch = "fruits and vegetables";
+                const productData = { productCategory: categoryToSearch };
+                const { data } = await axios.post("/product/cat", productData);
+                if (data) {
+                  setAllProducts(data);
+                  setLoading(false);
+                  return;
+                }
+              } catch (error) {
+                setLoading(false);
+                console.log(error);
+              }
+            }}
           >
             <div>
               <img
                 src="https://images.pexels.com/photos/1300975/pexels-photo-1300975.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt=""
-                className="w-[50px] h-[50px] rounded-full object-cover"
+                className="  min-w-[50px] w-[50px] h-[50px] rounded-full object-cover"
               />
             </div>
             <div className="">
@@ -211,12 +334,28 @@ const Shop = () => {
               padding: "2px 10px",
               borderRadius: "10px",
             }}
+            onClick={async () => {
+              try {
+                setLoading(true);
+                let categoryToSearch = "cereals";
+                const productData = { productCategory: categoryToSearch };
+                const { data } = await axios.post("/product/cat", productData);
+                if (data) {
+                  setAllProducts(data);
+                  setLoading(false);
+                  return;
+                }
+              } catch (error) {
+                setLoading(false);
+                console.log(error);
+              }
+            }}
           >
             <div>
               <img
                 src="https://images.pexels.com/photos/96715/pexels-photo-96715.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt=""
-                className="w-[50px] h-[50px] rounded-full object-cover"
+                className=" min-w-[50px] w-[50px] h-[50px] rounded-full object-cover"
               />
             </div>
 
@@ -224,7 +363,6 @@ const Shop = () => {
               <p className="pt-[20px] text-center text-lg">Cereals</p>
             </div>
           </div>
-
           <div
             className="relative cursor-pointer flex items-center gap-1"
             style={{
@@ -232,12 +370,28 @@ const Shop = () => {
               padding: "2px 10px",
               borderRadius: "10px",
             }}
+            onClick={async () => {
+              try {
+                setLoading(true);
+                let categoryToSearch = "fertilizer";
+                const productData = { productCategory: categoryToSearch };
+                const { data } = await axios.post("/product/cat", productData);
+                if (data) {
+                  setAllProducts(data);
+                  setLoading(false);
+                  return;
+                }
+              } catch (error) {
+                setLoading(false);
+                console.log(error);
+              }
+            }}
           >
             <div>
               <img
                 src="https://images.pexels.com/photos/3696170/pexels-photo-3696170.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt=""
-                className="w-[50px] h-[50px] rounded-full object-cover"
+                className=" min-w-[50px] w-[50px] h-[50px] rounded-full object-cover"
               />
             </div>
 
@@ -252,12 +406,28 @@ const Shop = () => {
               padding: "2px 10px",
               borderRadius: "10px",
             }}
+            onClick={async () => {
+              try {
+                setLoading(true);
+                let categoryToSearch = "equipment";
+                const productData = { productCategory: categoryToSearch };
+                const { data } = await axios.post("/product/cat", productData);
+                if (data) {
+                  setAllProducts(data);
+                  setLoading(false);
+                  return;
+                }
+              } catch (error) {
+                setLoading(false);
+                console.log(error);
+              }
+            }}
           >
             <div>
               <img
                 src="https://images.pexels.com/photos/2889440/pexels-photo-2889440.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt=""
-                className="w-[50px] h-[50px] rounded-full object-cover"
+                className=" min-w-[50px] w-[50px] h-[50px] rounded-full object-cover"
               />
             </div>
 
@@ -272,12 +442,28 @@ const Shop = () => {
               padding: "2px 10px",
               borderRadius: "10px",
             }}
+            onClick={async () => {
+              try {
+                setLoading(true);
+                let categoryToSearch = "seeds";
+                const productData = { productCategory: categoryToSearch };
+                const { data } = await axios.post("/product/cat", productData);
+                if (data) {
+                  setAllProducts(data);
+                  setLoading(false);
+                  return;
+                }
+              } catch (error) {
+                setLoading(false);
+                console.log(error);
+              }
+            }}
           >
             <div>
               <img
                 src="https://images.pexels.com/photos/768090/pexels-photo-768090.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt=""
-                className="w-[50px] h-[50px] rounded-full object-cover"
+                className="  min-w-[50px] w-[50px] h-[50px] rounded-full object-cover"
               />
             </div>
 
@@ -294,34 +480,88 @@ const Shop = () => {
         className="pl-[8px] pr-[8px] md:pl-[3em] md:pr-[3em] pt-[2em] pb-[2em] h-[90vh] overflow-y-scroll hide-scrollbar"
         id="productS"
       >
-        <p>All Products</p>
-        <div className="productWrapper">
-          {dummyProducts.map((item) => (
-            <div key={item.id} className="productItem">
-              <Link to={`/product/${item.id}`} key={item.id}>
-                <img
-                  src={item.productimg}
-                  alt=""
-                  style={{ borderRadius: "10px" }}
-                />
-              </Link>
-              <div className="flex justify-between items-center text-zinc-900 mt-3 px-3">
-                <p>{item.title}</p>
-                <p>Ksh. {item.price}</p>
+        {searchText && (
+          <h2 className="font-medium text-[#666e75] text-xl mb-3">
+            Showing Resuls for{" "}
+            <span className="text-[#222328]">{searchText}</span>:
+          </h2>
+        )}
+
+        {loading ? (
+          <div>
+            <Spinner message="Fetching Products" />
+          </div>
+        ) : (
+          <>
+            <p>All Products</p>
+
+            {searchText ? (
+              <div className="productWrapper">
+                {searchedResults?.map((item) => (
+                  <div key={item._id} className="productItem">
+                    <img
+                      src={item.productImage}
+                      alt=""
+                      style={{ borderRadius: "10px" }}
+                      className="h-[300px] w-[100%] object-cover"
+                    />
+
+                    <div className="flex justify-between items-center text-zinc-900 mt-3 px-3">
+                      <p>{item.productTitle}</p>
+                      <p>Ksh. {item.productPrice}</p>
+                    </div>
+                    <p className="text-zinc-500 px-3">
+                      {item.productDescription}
+                    </p>
+                    <div className="flex justify-between items-center ">
+                      <p className="text-zinc-500 px-3">
+                        <a href={`mailto:${item.useremail}`}>
+                          Click to email me
+                        </a>
+                      </p>
+                      <p className="text-zinc-500 px-3">
+                        On <span className="text-blue-600">Sema</span> at{" "}
+                        <span className="text-blue-600">{item.username}</span>{" "}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <p className="text-zinc-500 px-3">{item.desc}</p>
-              <div className="flex justify-between items-center ">
-                <p className="text-zinc-500 px-3">
-                  <a href="https://google.com">Click to email me</a>
-                </p>
-                <p className="text-zinc-500 px-3">
-                  On <span className="text-blue-600">Sema</span> at{" "}
-                  <span className="text-blue-600">Atwoli</span>{" "}
-                </p>
+            ) : (
+              <div className="productWrapper">
+                {allProducts?.map((item) => (
+                  <div key={item._id} className="productItem">
+                    <img
+                      src={item.productImage}
+                      alt=""
+                      style={{ borderRadius: "10px" }}
+                      className="h-[300px] w-[100%] object-cover"
+                    />
+
+                    <div className="flex justify-between items-center text-zinc-900 mt-3 px-3">
+                      <p>{item.productTitle}</p>
+                      <p>Ksh. {item.productPrice}</p>
+                    </div>
+                    <p className="text-zinc-500 px-3">
+                      {item.productDescription}
+                    </p>
+                    <div className="flex justify-between items-center ">
+                      <p className="text-zinc-500 px-3">
+                        <a href={`mailto:${item.useremail}`}>
+                          Click to email me
+                        </a>
+                      </p>
+                      <p className="text-zinc-500 px-3">
+                        On <span className="text-blue-600">Sema</span> at{" "}
+                        <span className="text-blue-600">{item.username}</span>{" "}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
-        </div>
+            )}
+          </>
+        )}
       </div>
 
       {/* footer */}

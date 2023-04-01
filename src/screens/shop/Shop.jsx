@@ -13,6 +13,13 @@ import { dummyProducts } from "../../data";
 import axios from "../../axios";
 import { toast } from "react-hot-toast";
 import Spinner from "../../components/Spinner";
+import {
+  createProduct,
+  deleteProduct,
+  getAllProducts,
+} from "../../features/product/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { BsTrash } from "react-icons/bs";
 
 const Shop = () => {
   const [heroImg, setHeroImg] = useState("");
@@ -20,6 +27,13 @@ const Shop = () => {
   const [allProducts, setAllProducts] = useState();
   const [loading, setLoading] = useState(false);
   const [searchCategory, setSearchCategory] = useState("");
+
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth);
+  const { product, isSuccess, isLoading } = useSelector(
+    (state) => state.products
+  );
 
   const heroImage = [
     "https://images.pexels.com/photos/235925/pexels-photo-235925.jpeg?auto=compress&cs=tinysrgb&w=1600",
@@ -40,10 +54,6 @@ const Shop = () => {
 
   setTimeout(changeHeroImg, 50000);
 
-  useEffect(() => {
-    changeHeroImg();
-  }, []);
-
   // console.log(heroImg);
 
   // setInterval(getRandomHeroImg(), 3000);
@@ -56,13 +66,13 @@ const Shop = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
+
       const { data } = await axios.get("/product");
       if (data) {
         setAllProducts(data);
-        toast.success("Fetched Products");
         setLoading(false);
-        return;
       }
+      return;
     } catch (error) {
       toast.error("Failed to fetch products");
     }
@@ -100,10 +110,56 @@ const Shop = () => {
     );
   };
 
-  const [changedCategory, setChangedCategory] = useState("");
+  // create product states
+  const [productTitle, setProductTitle] = useState("");
+  const [productDescription, setProductDescription] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [productImage, setProductImage] = useState("");
+  const [productCategory, setProductCategory] = useState("");
 
-  const handleFetchOnCategory = () => {
-    alert(searchCategory);
+  const handleCreateProduct = async (e) => {
+    e.preventDefault();
+    if (
+      !productTitle ||
+      !productDescription ||
+      !productPrice ||
+      !productImage ||
+      !productCategory
+    ) {
+      toast.error("All Details needed");
+      return;
+    } else {
+      const productData = {
+        productTitle,
+        productDescription,
+        productPrice,
+        productImage,
+        productCategory,
+      };
+
+      dispatch(createProduct(productData));
+      setShowCreate(false);
+      toast.success(`Created ${productTitle}`);
+      fetchProducts();
+      // handleCreateProduct(false);
+    }
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    try {
+      let token = user.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await axios.delete("/product/" + productId, config);
+
+      toast.success(`Deleted ${productId}`);
+      fetchProducts();
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
@@ -192,34 +248,52 @@ const Shop = () => {
       {showCreate && (
         <div className="pl-[8px] pr-[8px] md:pl-[3em] md:pr-[3em] mt-[2em]">
           <h2>Create a product</h2>
-          <form className="flex  flex-col 2xl:flex-row justify-between mt-3 gap-3">
+          <form
+            className="flex  flex-col 2xl:flex-row justify-between mt-3 gap-3"
+            onSubmit={handleCreateProduct}
+          >
             <input
               type="text"
               placeholder="Enter Title or name"
               className="p-[10px] rounded-md flex-[0.2] outline-none"
               style={{ border: "1px solid green" }}
+              required
+              value={productTitle}
+              onChange={(e) => setProductTitle(e.target.value)}
             />
             <input
               type="text"
               placeholder="Description"
               className="p-[10px] rounded-md flex-[0.2] outline-none"
               style={{ border: "1px solid green" }}
+              required
+              value={productDescription}
+              onChange={(e) => setProductDescription(e.target.value)}
             />
             <input
               type="text"
               placeholder="Price per product"
               className="p-[10px] rounded-md flex-[0.2] outline-none"
               style={{ border: "1px solid green" }}
+              required
+              value={productPrice}
+              onChange={(e) => setProductPrice(e.target.value)}
             />
             <input
               type="text"
               placeholder="Enter product url"
               className="p-[10px] rounded-md flex-[0.2] outline-none"
               style={{ border: "1px solid green" }}
+              required
+              value={productImage}
+              onChange={(e) => setProductImage(e.target.value)}
             />
             <select
               className="p-[10px] rounded-md flex-[0.2] outline-none"
               style={{ border: "1px solid green" }}
+              required
+              value={productCategory}
+              onChange={(e) => setProductCategory(e.target.value)}
             >
               <option value="">Choose</option>
               <option value="animal">Animal & Products</option>
@@ -232,6 +306,7 @@ const Shop = () => {
             <button
               className="p-[10px] rounded-md flex-[0.2] outline-none bg-green-800 text-zinc-100"
               style={{ backgroundColor: "" }}
+              onClick={handleCreateProduct}
             >
               Create
             </button>
@@ -523,6 +598,15 @@ const Shop = () => {
                         On <span className="text-blue-600">Sema</span> at{" "}
                         <span className="text-blue-600">{item.username}</span>{" "}
                       </p>
+
+                      {user?.email === item.useremail && (
+                        <p
+                          className="bg-red-500 text-white p-[5px] text-lg cursor-pointer"
+                          onClick={() => handleDeleteProduct(item._id)}
+                        >
+                          <BsTrash />
+                        </p>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -555,6 +639,14 @@ const Shop = () => {
                         On <span className="text-blue-600">Sema</span> at{" "}
                         <span className="text-blue-600">{item.username}</span>{" "}
                       </p>
+                      {user?.email === item.useremail && (
+                        <p
+                          className="bg-red-500 text-white p-[5px] text-lg cursor-pointer"
+                          onClick={() => handleDeleteProduct(item._id)}
+                        >
+                          <BsTrash />
+                        </p>
+                      )}
                     </div>
                   </div>
                 ))}
